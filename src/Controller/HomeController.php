@@ -7,6 +7,7 @@ use App\Entity\Media;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
@@ -16,7 +17,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function home()
+    public function home(): Response
     {
         return $this->render('front/home.html.twig');
     }
@@ -24,7 +25,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/guests", name="guests")
      */
-    public function guests()
+    public function guests(): Response
     {
         $guests = $this->em->getRepository(User::class)->findBy(['admin' => false]);
         return $this->render('front/guests.html.twig', [
@@ -35,7 +36,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/guest/{id}", name="guest")
      */
-    public function guest(int $id)
+    public function guest(int $id): Response
     {
         $guest = $this->em->getRepository(User::class)->find($id);
         return $this->render('front/guest.html.twig', [
@@ -46,7 +47,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/portfolio/{id}", name="portfolio")
      */
-    public function portfolio(?int $id = null)
+    public function portfolio(?int $id = null): Response
     {
         $albums = $this->em->getRepository(Album::class)->findAll();
         $album = $id ? $this->em->getRepository(Album::class)->find($id) : null;
@@ -65,7 +66,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/about", name="about")
      */
-    public function about()
+    public function about(): Response
     {
         return $this->render('front/about.html.twig');
     }
