@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 class Media
@@ -26,6 +27,12 @@ class Media
     #[ORM\Column]
     private string $title;
 
+    #[Assert\Image(
+        maxSize: '2M',
+        mimeTypes: ['image/png', 'image/jpeg', 'image/webp'],
+        maxSizeMessage: 'Le fichier est trop volumineux. La taille maximum autorisée est de 2 Mo.',
+        mimeTypesMessage: 'Le format de l\'image doit être valide (JPEG, PNG, WEBP)'
+    )]
     private ?UploadedFile $file = null;
 
     public function getId(): ?int

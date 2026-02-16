@@ -31,7 +31,7 @@ class MediaController extends AbstractController
             25,
             25 * ($page - 1)
         );
-        $total = $this->em->getRepository(Media::class)->count([]);
+        $total = $this->em->getRepository(Media::class)->count($criteria);
 
         return $this->render('admin/media/index.html.twig', [
             'medias' => $medias,
@@ -66,6 +66,11 @@ class MediaController extends AbstractController
     public function delete(int $id): Response
     {
         $media = $this->em->getRepository(Media::class)->find($id);
+
+        if (!$this->isGranted('ROLE_ADMIN') && $media->getUser()->getId() !== $this->getUser()->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
         $this->em->remove($media);
         $this->em->flush();
         unlink($media->getPath());
