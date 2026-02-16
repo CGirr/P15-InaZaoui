@@ -31,7 +31,7 @@ class MediaController extends AbstractController
             25,
             25 * ($page - 1)
         );
-        $total = $this->em->getRepository(Media::class)->count([]);
+        $total = $this->em->getRepository(Media::class)->count($criteria);
 
         return $this->render('admin/media/index.html.twig', [
             'medias' => $medias,
@@ -67,7 +67,7 @@ class MediaController extends AbstractController
     {
         $media = $this->em->getRepository(Media::class)->find($id);
 
-        if (!$this->isGranted('ROLE_ADMIN') && $media->getUser() !== $this->getUser()) {
+        if (!$this->isGranted('ROLE_ADMIN') && $media->getUser()->getId() !== $this->getUser()->getId()) {
             throw $this->createAccessDeniedException();
         }
 
