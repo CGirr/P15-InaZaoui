@@ -27,7 +27,7 @@
                         {%  else %}
                             <a href="{{ path('admin_guest_block', {id: guest.id}) }}" class="btn btn-success">Débloquer</a>
                         {% endif %}
-                        <a href="" class="btn btn-danger">Supprimer</a>
+                        <a href="{{ path('admin_guest_delete', {id: guest.id}) }}" class="btn btn-danger">Supprimer</a>
                     </div>
                 </td>
             </tr>
