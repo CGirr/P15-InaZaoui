@@ -54,6 +54,25 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $id ? $this->find($id) : null;
     }
 
+    /**
+     * @throws Exception
+     */
+    public function findGuestsWithMediaCount(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "
+            SELECT u.id, u.name, COUNT(m.id) AS media_count
+            FROM \"user\" u
+            LEFT JOIN media m ON u.id = m.user_id
+            WHERE u.roles::text NOT LIKE :role
+            AND u.blocked = false
+            GROUP BY u.id
+            ORDER BY u.name ASC
+            ";
+
+        return $conn->executeQuery($sql, ['role' => '%ROLE_ADMIN%'])->fetchAllAssociative();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

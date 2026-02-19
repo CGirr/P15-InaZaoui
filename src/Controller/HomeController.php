@@ -23,9 +23,8 @@ class HomeController extends AbstractController
     #[Route('/guests', name: 'guests')]
     public function guests(): Response
     {
-        $guests = $this->em->getRepository(User::class)->findAll();
-        $guests = array_filter($guests, fn(User $user) =>
-            !in_array('ROLE_ADMIN', $user->getRoles()) && !$user->isBlocked());
+        $guests = $this->em->getRepository(User::class)->findGuestsWithMediaCount();
+
         return $this->render('front/guests.html.twig', [
             'guests' => $guests
         ]);
