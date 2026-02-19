@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,6 +39,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function findAdmin(): ?User
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT id FROM \"user\" WHERE roles::text LIKE :role LIMIT 1";
+        $result = $conn->executeQuery($sql, ['role' => '%ROLE_ADMIN%']);
+        $id = $result->fetchOne();
+
+        return $id ? $this->find($id) : null;
     }
 
 //    /**

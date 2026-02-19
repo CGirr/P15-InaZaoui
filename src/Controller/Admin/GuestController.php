@@ -52,4 +52,13 @@ final class GuestController extends AbstractController
         return $this->render('admin/guest/add.html.twig', [
             'form' => $form->createView()]);
     }
+
+    #[Route('/admin/guest/block/{id}', name: 'admin_guest_block')]
+    public function block(User $user): Response
+    {
+        $user->setBlocked(!$user->isBlocked());
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('admin_guest_index');
+    }
 }
