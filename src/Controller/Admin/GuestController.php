@@ -61,4 +61,20 @@ final class GuestController extends AbstractController
 
         return $this->redirectToRoute('admin_guest_index');
     }
+
+    #[Route('/admin/guest/delete/{id}', name: 'admin_guest_delete')]
+    public function delete(User $user): Response
+    {
+        // Deletes user's images from the disk
+        foreach ($user->getMedias() as $media) {
+            if (file_exists($media->getPath())) {
+                unlink($media->getPath());
+            }
+        }
+
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('admin_guest_index');
+    }
 }
