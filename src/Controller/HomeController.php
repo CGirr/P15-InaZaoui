@@ -23,7 +23,9 @@ class HomeController extends AbstractController
     #[Route('/guests', name: 'guests')]
     public function guests(): Response
     {
-        $guests = $this->em->getRepository(User::class)->findBy(['admin' => false]);
+        $guests = $this->em->getRepository(User::class)->findAll();
+        $guests = array_filter($guests, fn(User $user) =>
+            !in_array('ROLE_ADMIN', $user->getRoles()) && !$user->isBlocked());
         return $this->render('front/guests.html.twig', [
             'guests' => $guests
         ]);
@@ -33,6 +35,11 @@ class HomeController extends AbstractController
     public function guest(int $id): Response
     {
         $guest = $this->em->getRepository(User::class)->find($id);
+
+        if (!$guest || $guest->isBlocked()) {
+            throw $this->createNotFoundException();
+        }
+
         return $this->render('front/guest.html.twig', [
             'guest' => $guest
         ]);
@@ -43,7 +50,7 @@ class HomeController extends AbstractController
     {
         $albums = $this->em->getRepository(Album::class)->findAll();
         $album = $id ? $this->em->getRepository(Album::class)->find($id) : null;
-        $user = $this->em->getRepository(User::class)->findOneBy(['admin' => true]);
+        $user = $this->em->getRepository(User::class)->findAdmin();
 
         $medias = $album
             ? $this->em->getRepository(Media::class)->findBy(['album' => $album])
