@@ -37,8 +37,8 @@ class AppFixtures extends Fixture
 
         //Guest bloqué
         $blockedGuest = new User();
-        $blockedGuest->setName('Coraline Girr');
-        $blockedGuest->setEmail('coraline.girr@gmail.com');
+        $blockedGuest->setName('Cora G');
+        $blockedGuest->setEmail('cora.g@gmail.com');
         $blockedGuest->setPassword($this->hasher->hashPassword($blockedGuest, '123456'));
         $blockedGuest->setDescription("Le maître de l'urbanité capturée, explore les méandres des cités avec un regard vif et impétueux, figeant l'énergie des rues dans des instants éblouissants.");
         $blockedGuest->setRoles(['ROLE_USER']);

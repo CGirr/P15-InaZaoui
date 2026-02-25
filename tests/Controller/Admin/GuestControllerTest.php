@@ -79,7 +79,7 @@ class GuestControllerTest extends AbstractAdminTest
     public function testAdminCanUnblockGuest(): void
     {
         $this->loginAsAdmin();
-        $guest = $this->getEntity(User::class, ['email' => 'coraline.girr@gmail.com']);
+        $guest = $this->getEntity(User::class, ['email' => 'cora.g@gmail.com']);
         $this->assertTrue($guest->isBlocked());
 
         $this->client->request('GET', '/admin/guest/block/' . $guest->getId());
@@ -87,14 +87,14 @@ class GuestControllerTest extends AbstractAdminTest
 
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
         $em->clear();
-        $guest = $this->getEntity(User::class, ['email' => 'coraline.girr@gmail.com']);
+        $guest = $this->getEntity(User::class, ['email' => 'cora.g@gmail.com']);
         $this->assertFalse($guest->isBlocked());
     }
 
     public function testAdminCanDeleteGuest(): void
     {
         $this->loginAsAdmin();
-        $guest = $this->getEntity(User::class, ['email' => 'coraline.girr@gmail.com']);
+        $guest = $this->getEntity(User::class, ['email' => 'cora.g@gmail.com']);
         $this->client->request('GET', '/admin/guest/delete/' . $guest->getId());
         $this->assertResponseRedirects('/admin/guest');
         $this->client->followRedirect();
@@ -111,7 +111,7 @@ class GuestControllerTest extends AbstractAdminTest
     public function testGuestCannotBlockGuest(): void
     {
         $this->loginAsUser();
-        $guest = $this->getEntity(User::class, ['email' => 'coraline.girr@gmail.com']);
+        $guest = $this->getEntity(User::class, ['email' => 'cora.g@gmail.com']);
         $this->client->request('GET', '/admin/guest/block/' . $guest->getId());
         $this->assertResponseStatusCodeSame(403);
     }
@@ -119,7 +119,7 @@ class GuestControllerTest extends AbstractAdminTest
     public function testGuestCannotDeleteGuest(): void
     {
         $this->loginAsUser();
-        $guest = $this->getEntity(User::class, ['email' => 'coraline.girr@gmail.com']);
+        $guest = $this->getEntity(User::class, ['email' => 'cora.g@gmail.com']);
         $this->client->request('GET', '/admin/guest/delete/' . $guest->getId());
         $this->assertResponseStatusCodeSame(403);
     }

@@ -43,7 +43,7 @@ class SecurityControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/login');
         $this->client->submitForm('Connexion', [
-            '_username' => 'coraline.girr@gmail.com',
+            '_username' => 'cora.g@gmail.com',
             '_password' => '123456',
         ]);
         $this->assertResponseRedirects('/login');
