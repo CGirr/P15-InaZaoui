@@ -13,12 +13,18 @@ class SecurityControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
+    /**
+     * @return void
+     */
     public function testLoginPage(): void
     {
         $this->client->request('GET', '/login');
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * @return void
+     */
     public function testLoginWithValidCredentials(): void
     {
         $this->client->request('GET', '/login');
@@ -29,6 +35,9 @@ class SecurityControllerTest extends WebTestCase
         $this->assertResponseRedirects('/');
     }
 
+    /**
+     * @return void
+     */
     public function testLoginWithInvalidCredentials(): void
     {
         $this->client->request('GET', '/login');
@@ -39,6 +48,9 @@ class SecurityControllerTest extends WebTestCase
         $this->assertResponseRedirects('/login');
     }
 
+    /**
+     * @return void
+     */
     public function testLoginWithBlockedUser(): void
     {
         $this->client->request('GET', '/login');
@@ -51,6 +63,9 @@ class SecurityControllerTest extends WebTestCase
         $this->assertSelectorTextContains('.alert-danger',"Votre compte a été bloqué, veuillez contacter l'administrateur");
     }
 
+    /**
+     * @return void
+     */
     public function testUnauthenticatedUserIsRedirectedToLogin(): void
     {
         $this->client->request('GET', '/admin/guest');

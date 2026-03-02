@@ -14,12 +14,18 @@ class HomeController extends AbstractController
 {
     public function __construct(private EntityManagerInterface $em) {}
 
+    /**
+     * @return Response
+     */
     #[Route('/', name: 'home')]
     public function home(): Response
     {
         return $this->render('front/home.html.twig');
     }
 
+    /**
+     * @return Response
+     */
     #[Route('/guests', name: 'guests')]
     public function guests(): Response
     {
@@ -30,6 +36,10 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param int $id
+     * @return Response
+     */
     #[Route('/guest/{id}', name: 'guest')]
     public function guest(int $id): Response
     {
@@ -44,6 +54,10 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param int|null $id
+     * @return Response
+     */
     #[Route('/portfolio/{id}', name: 'portfolio')]
     public function portfolio(?int $id = null): Response
     {
@@ -61,6 +75,9 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @return Response
+     */
     #[Route('/about', name: 'about')]
     public function about(): Response
     {

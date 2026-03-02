@@ -42,6 +42,13 @@ In .env.local modify "DATABASE_URL" with your credentials
 
 You can now access the app at https://localhost:8000
 
+Once logged in administration panel is accessible via:
+>https://localhost:8000/admin/guest
+> 
+>https://localhost:8000/admin/album
+> 
+>https://localhost:8000/admin/media
+
 ## Test accounts
 
 | Role | Email | Password |

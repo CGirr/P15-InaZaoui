@@ -14,36 +14,54 @@ class HomeControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
+    /**
+     * @return void
+     */
     public function testHomePage(): void
     {
         $this->client->request('GET', '/');
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * @return void
+     */
     public function testPortfolioPage(): void
     {
         $this->client->request('GET', '/portfolio');
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * @return void
+     */
     public function testPortfolioPageWithFilter(): void
     {
         $this->client->request('GET', '/portfolio/1');
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * @return void
+     */
     public function testAboutPage(): void
     {
         $this->client->request('GET', '/about');
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * @return void
+     */
     public function testGuestsListPage(): void
     {
         $this->client->request('GET', '/guests');
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * @return void
+     */
     public function testBlockedGuestPageReturns404(): void
     {
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
@@ -53,6 +71,9 @@ class HomeControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(404);
     }
 
+    /**
+     * @return void
+     */
     public function testActiveGuestPage(): void
     {
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
@@ -62,6 +83,9 @@ class HomeControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * @return void
+     */
     public function testGuestsListExcludesBlockedGuest(): void
     {
         $this->client->request('GET', '/guests');

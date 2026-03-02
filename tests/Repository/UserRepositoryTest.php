@@ -9,12 +9,16 @@ use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\Container;
 
 class UserRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $em;
     private UserRepository $userRepository;
 
+    /**
+     * @return void
+     */
     protected function setUp(): void
     {
         self::bootKernel();
@@ -22,6 +26,14 @@ class UserRepositoryTest extends KernelTestCase
         $this->userRepository = $this->em->getRepository(User::class);
     }
 
+    /**
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @param array $roles
+     * @param bool $blocked
+     * @return User
+     */
     private function createUser(string $name, string $email, string $password, array $roles, bool $blocked = false): User
     {
         $user = new User();
@@ -48,6 +60,9 @@ class UserRepositoryTest extends KernelTestCase
         $this->assertContains('ROLE_ADMIN', $result->getRoles());
     }
 
+    /**
+     * @return int[][]
+     */
     public static function mediaCountProvider(): array
     {
         return [

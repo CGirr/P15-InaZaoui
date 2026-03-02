@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class MediaControllerTest extends AbstractAdminTest
 {
+    /**
+     * @return void
+     */
     public function testAdminSeesAllMedias(): void
     {
         $this->loginAsAdmin();
@@ -18,6 +21,9 @@ class MediaControllerTest extends AbstractAdminTest
         $this->assertSelectorTextContains('body', 'Photo Bloqué');
     }
 
+    /**
+     * @return void
+     */
     public function testGuestSeesOnlyOwnMedias(): void
     {
         $this->loginAsUser();
@@ -28,6 +34,9 @@ class MediaControllerTest extends AbstractAdminTest
         $this->assertSelectorTextNotContains('body', 'Photo Bloqué');
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCanAddMedia(): void
     {
         $this->loginAsAdmin();
@@ -48,6 +57,9 @@ class MediaControllerTest extends AbstractAdminTest
         $this->assertSelectorTextContains('body', 'Photo test');
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCanDeleteAnyMedia(): void
     {
         $this->loginAsAdmin();
@@ -58,6 +70,9 @@ class MediaControllerTest extends AbstractAdminTest
         $this->assertSelectorTextNotContains('body', 'Photo Admin');
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCannotDeleteOtherUserMedia(): void
     {
         $this->loginAsUser();
@@ -66,6 +81,9 @@ class MediaControllerTest extends AbstractAdminTest
         $this->assertResponseStatusCodeSame(403);
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCanDeleteOwnMedia(): void
     {
         $this->loginAsUser();
@@ -76,6 +94,9 @@ class MediaControllerTest extends AbstractAdminTest
         $this->assertSelectorTextNotContains('body', 'Photo Invité');
     }
 
+    /**
+     * @return void
+     */
     public function testUploadInvalidFileType(): void
     {
         $this->loginAsAdmin();

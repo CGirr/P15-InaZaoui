@@ -6,6 +6,9 @@ use App\Entity\User;
 
 class GuestControllerTest extends AbstractAdminTest
 {
+    /**
+     * @return void
+     */
     public function testAdminCanAccessGuestsList(): void
     {
         $this->loginAsAdmin();
@@ -13,6 +16,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCannotAccessGuestsList(): void
     {
         $this->loginAsUser();
@@ -20,6 +26,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertResponseStatusCodeSame(403);
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCanAddGuest(): void
     {
         $this->loginAsAdmin();
@@ -35,6 +44,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertAnySelectorTextContains('td', 'Invité test');
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCannotAddGuestWithInvalidEmail(): void
     {
         $this->loginAsAdmin();
@@ -48,6 +60,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertSelectorTextContains('.invalid-feedback', "L'email n'est pas valide");
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCannotAddGuestWithShortPassword(): void
     {
         $this->loginAsAdmin();
@@ -61,6 +76,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertSelectorTextContains('.invalid-feedback', "Le mot de passe doit contenir au moins 6 caractères");
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCanBlockGuest(): void
     {
         $this->loginAsAdmin();
@@ -76,6 +94,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertTrue($guest->isBlocked());
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCanUnblockGuest(): void
     {
         $this->loginAsAdmin();
@@ -91,6 +112,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertFalse($guest->isBlocked());
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCanDeleteGuest(): void
     {
         $this->loginAsAdmin();
@@ -101,6 +125,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertSelectorTextNotContains('body', 'Coraline Girr');
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCannotAddGuest(): void
     {
         $this->loginAsUser();
@@ -108,6 +135,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertResponseStatusCodeSame(403);
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCannotBlockGuest(): void
     {
         $this->loginAsUser();
@@ -116,6 +146,9 @@ class GuestControllerTest extends AbstractAdminTest
         $this->assertResponseStatusCodeSame(403);
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCannotDeleteGuest(): void
     {
         $this->loginAsUser();

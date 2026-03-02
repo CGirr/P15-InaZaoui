@@ -13,6 +13,10 @@ class AppFixtures extends Fixture
 {
     public function __construct(private UserPasswordHasherInterface $hasher) {}
 
+    /**
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         // Admin

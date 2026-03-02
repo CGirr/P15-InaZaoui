@@ -15,6 +15,9 @@ abstract class AbstractAdminTest extends WebTestCase
         $this->client = static::createClient();
     }
 
+    /**
+     * @return void
+     */
     protected function loginAsAdmin(): void
     {
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
@@ -22,6 +25,9 @@ abstract class AbstractAdminTest extends WebTestCase
         $this->client->loginUser($admin);
     }
 
+    /**
+     * @return void
+     */
     protected function loginAsUser(): void
     {
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
@@ -29,6 +35,11 @@ abstract class AbstractAdminTest extends WebTestCase
         $this->client->loginUser($user);
     }
 
+    /**
+     * @param string $class
+     * @param array $criteria
+     * @return object
+     */
     protected function getEntity(string $class, array $criteria): object
     {
         $em = static::getContainer()->get('doctrine.orm.entity_manager');

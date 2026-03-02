@@ -14,6 +14,10 @@ class MediaController extends AbstractController
 {
     public function __construct(private EntityManagerInterface $em) {}
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/media', name: 'admin_media_index')]
     public function index(Request $request): Response
     {
@@ -40,6 +44,10 @@ class MediaController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/media/add', name: 'admin_media_add')]
     public function add(Request $request): Response
     {
@@ -62,6 +70,10 @@ class MediaController extends AbstractController
         return $this->render('admin/media/add.html.twig', ['form' => $form->createView()]);
     }
 
+    /**
+     * @param int $id
+     * @return Response
+     */
     #[Route('/admin/media/delete/{id}', name: 'admin_media_delete')]
     public function delete(int $id): Response
     {

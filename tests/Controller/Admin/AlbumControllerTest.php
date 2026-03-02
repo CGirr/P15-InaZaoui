@@ -6,6 +6,9 @@ use App\Entity\Album;
 
 class AlbumControllerTest extends AbstractAdminTest
 {
+    /**
+     * @return void
+     */
     public function testAdminCanAccessAlbumList(): void
     {
         $this->loginAsAdmin();
@@ -13,6 +16,9 @@ class AlbumControllerTest extends AbstractAdminTest
         $this->assertResponseIsSuccessful();
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCannotAccessAlbumList(): void
     {
         $this->loginAsUser();
@@ -20,6 +26,9 @@ class AlbumControllerTest extends AbstractAdminTest
         $this->assertResponseStatusCodeSame(403);
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCanAddAlbum(): void
     {
         $this->loginAsAdmin();
@@ -31,6 +40,9 @@ class AlbumControllerTest extends AbstractAdminTest
         $this->assertResponseRedirects('/admin/album');
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCanEditAlbum(): void
     {
         $this->loginAsAdmin();
@@ -45,6 +57,9 @@ class AlbumControllerTest extends AbstractAdminTest
         $this->assertSelectorTextContains('td', "Nature modifié");
     }
 
+    /**
+     * @return void
+     */
     public function testAdminCanDeleteAlbum(): void
     {
         $this->loginAsAdmin();
@@ -53,6 +68,9 @@ class AlbumControllerTest extends AbstractAdminTest
         $this->assertResponseRedirects('/admin/album');
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCannotAddAlbum(): void
     {
         $this->loginAsUser();
@@ -60,6 +78,9 @@ class AlbumControllerTest extends AbstractAdminTest
         $this->assertResponseStatusCodeSame(403);
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCannotEditAlbum(): void
     {
       $this->loginAsUser();
@@ -68,6 +89,9 @@ class AlbumControllerTest extends AbstractAdminTest
       $this->assertResponseStatusCodeSame(403);
     }
 
+    /**
+     * @return void
+     */
     public function testGuestCannotDeleteAlbum(): void
     {
         $this->loginAsUser();

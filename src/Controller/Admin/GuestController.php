@@ -17,6 +17,9 @@ final class GuestController extends AbstractController
 {
     public function __construct(private EntityManagerInterface $entityManager) {}
 
+    /**
+     * @return Response
+     */
     #[Route('/admin/guest', name: 'admin_guest_index')]
     public function index(): Response
     {
@@ -25,7 +28,7 @@ final class GuestController extends AbstractController
             ['name' => 'ASC']
         );
 
-        // Exclude admin form the guests list
+        // Exclude admin from the guests list
         $guests = array_filter($guests, fn (User $user) => !in_array('ROLE_ADMIN', $user->getRoles()));
 
         return $this->render('admin/guest/index.html.twig', [
@@ -33,6 +36,11 @@ final class GuestController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
     #[Route('/admin/guest/add', name: 'admin_guest_add')]
     public function add(Request $request, UserPasswordHasherInterface $hasher): Response
     {
@@ -53,6 +61,10 @@ final class GuestController extends AbstractController
             'form' => $form->createView()]);
     }
 
+    /**
+     * @param User $user
+     * @return Response
+     */
     #[Route('/admin/guest/block/{id}', name: 'admin_guest_block')]
     public function block(User $user): Response
     {
@@ -62,6 +74,10 @@ final class GuestController extends AbstractController
         return $this->redirectToRoute('admin_guest_index');
     }
 
+    /**
+     * @param User $user
+     * @return Response
+     */
     #[Route('/admin/guest/delete/{id}', name: 'admin_guest_delete')]
     public function delete(User $user): Response
     {
