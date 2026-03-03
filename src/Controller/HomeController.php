@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
-use App\Entity\Album;
-use App\Entity\Media;
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\AlbumRepository;
+use App\Repository\MediaRepository;
+use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $em) {}
+    public function __construct(
+        private UserRepository $userRepository,
+        private AlbumRepository $albumRepository,
+        private MediaRepository $mediaRepository,
+    ) {}
 
     /**
      * @return Response
@@ -25,11 +29,12 @@ class HomeController extends AbstractController
 
     /**
      * @return Response
+     * @throws Exception
      */
     #[Route('/guests', name: 'guests')]
     public function guests(): Response
     {
-        $guests = $this->em->getRepository(User::class)->findGuestsWithMediaCount();
+        $guests = $this->userRepository->findGuestsWithMediaCount();
 
         return $this->render('front/guests.html.twig', [
             'guests' => $guests
@@ -43,7 +48,7 @@ class HomeController extends AbstractController
     #[Route('/guest/{id}', name: 'guest')]
     public function guest(int $id): Response
     {
-        $guest = $this->em->getRepository(User::class)->find($id);
+        $guest = $this->userRepository->find($id);
 
         if (!$guest || $guest->isBlocked()) {
             throw $this->createNotFoundException();
@@ -61,13 +66,13 @@ class HomeController extends AbstractController
     #[Route('/portfolio/{id}', name: 'portfolio')]
     public function portfolio(?int $id = null): Response
     {
-        $albums = $this->em->getRepository(Album::class)->findAll();
-        $album = $id ? $this->em->getRepository(Album::class)->find($id) : null;
-        $user = $this->em->getRepository(User::class)->findAdmin();
+        $albums = $this->albumRepository->findAll();
+        $album = $id ? $this->albumRepository->find($id) : null;
+        $user = $this->userRepository->findAdmin();
 
         $medias = $album
-            ? $this->em->getRepository(Media::class)->findBy(['album' => $album])
-            : $this->em->getRepository(Media::class)->findBy(['user' => $user]);
+            ? $this->mediaRepository->findBy(['album' => $album])
+            : $this->mediaRepository->findBy(['user' => $user]);
         return $this->render('front/portfolio.html.twig', [
             'albums' => $albums,
             'album' => $album,

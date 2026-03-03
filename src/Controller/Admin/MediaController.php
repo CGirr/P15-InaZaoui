@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Media;
+use App\Entity\User;
 use App\Form\MediaType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,7 +58,9 @@ class MediaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$media->getUser()) {
-                $media->setUser($this->getUser());
+                /** @var User $currentUser */
+                $currentUser = $this->getUser();
+                $media->setUser($currentUser);
             }
             $media->setPath('uploads/' . md5(uniqid()) . '.' . $media->getFile()->guessExtension());
             $media->getFile()->move('uploads/', $media->getPath());
@@ -79,7 +82,9 @@ class MediaController extends AbstractController
     {
         $media = $this->em->getRepository(Media::class)->find($id);
 
-        if (!$this->isGranted('ROLE_ADMIN') && $media->getUser()->getId() !== $this->getUser()->getId()) {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+        if (!$this->isGranted('ROLE_ADMIN') && $media->getUser()->getId() !== $currentUser->getId()) {
             throw $this->createAccessDeniedException();
         }
 

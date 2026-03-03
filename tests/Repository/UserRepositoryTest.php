@@ -9,7 +9,6 @@ use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\DependencyInjection\Container;
 
 class UserRepositoryTest extends KernelTestCase
 {
@@ -23,7 +22,7 @@ class UserRepositoryTest extends KernelTestCase
     {
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->userRepository = $this->em->getRepository(User::class);
+        $this->userRepository = static::getContainer()->get(UserRepository::class);
     }
 
     /**

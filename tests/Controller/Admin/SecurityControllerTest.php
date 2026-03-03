@@ -2,11 +2,12 @@
 
 namespace App\Tests\Controller\Admin;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SecurityControllerTest extends WebTestCase
 {
-    private $client;
+    private KernelBrowser $client;
 
     public function setUp(): void
     {
