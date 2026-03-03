@@ -21,6 +21,8 @@ jobs:
                     POSTGRES_USER: symfony
                     POSTGRES_PASSWORD: symfony
                     POSTGRES_DB: ina_zaoui_test
+                ports:
+                    - 5432:5432
                 options: >-
                     --health-cmd pg_isready
                     --health-interval 10s
@@ -28,9 +30,9 @@ jobs:
                     --health-retries 5
 
         steps:
-            - uses: actions/1e31de5234b9f8995739874a8ce0492dc87873e2 # checkout v4.0
+            - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2 # checkout v4.0
             - name: Setup PHP 8.4
-              uses: actions/44454db4f0199b8b9685a5d763dc37cbf79108e1 # setup-php v2.36.0
+              uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # setup-php v2.36.0
               with:
                   php-version: '8.4'
                   extensions: pdo_pgsql, intl
@@ -40,9 +42,8 @@ jobs:
 
             - name: Setup database
               env:
-                  DATABASE_URL: postgresql://symfony:symfony@127.0.0.1:5432/ina_zaoui_test?serverVersion=16&charset=utf8
+                  DATABASE_URL: postgresql://symfony:symfony@127.0.0.1:5432/ina_zaoui?serverVersion=16&charset=utf8
               run: |
-                  php bin/console doctrine:database:create --env=test
                   php bin/console doctrine:migrations:migrate --env=test --no-interaction
                   php bin/console doctrine:fixtures:load --env=test --no-interaction
 
@@ -51,5 +52,5 @@ jobs:
 
             - name: Run tests
               env:
-                  DATABASE_URL: postgresql://symfony:symfony@127.0.0.1:5432/ina_zaoui_test?serverVersion=16&charset=utf8
+                  DATABASE_URL: postgresql://symfony:symfony@127.0.0.1:5432/ina_zaoui?serverVersion=16&charset=utf8
               run: php bin/phpunit
