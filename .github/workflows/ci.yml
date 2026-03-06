@@ -56,7 +56,7 @@ jobs:
               run: php bin/phpunit --coverage-clover clover.xml
 
             - name: Coverage Check
-              uses: ericsizemore/phpunit-coverage-check-action@1.0.0
+              uses: docker://ghcr.io/ericsizemore/phpunit-coverage-check-action
               with:
-                  clover_file: 'build/logs/clover.xml'
-                  threshold: 70
+                clover_file: 'clover.xml'
+                threshold: 100
